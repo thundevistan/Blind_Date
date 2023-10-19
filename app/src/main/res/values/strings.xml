@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Blind Date</string>
+    <string name="card_image">Card Image</string>
+    <string name="drawable_image">Drawable Image</string>
 </resources>
