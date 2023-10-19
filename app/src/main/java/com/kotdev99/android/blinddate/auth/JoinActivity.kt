@@ -1,10 +1,8 @@
 package com.kotdev99.android.blinddate.auth
 
-import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -50,7 +48,7 @@ class JoinActivity : AppCompatActivity() {
 			.addOnCompleteListener(this) { task ->
 				if (task.isSuccessful) {
 					// Sign in success, update UI with the signed-in user's information
-					Log.d(TAG, "createUserWithEmail:success")
+
 					val user = auth.currentUser
 //					updateUI(user)
 
@@ -58,7 +56,6 @@ class JoinActivity : AppCompatActivity() {
 					startActivity(intent)
 				} else {
 					// If sign in fails, display a message to the user.
-					Log.w(TAG, "createUserWithEmail:failure", task.exception)
 
 //					updateUI(null)
 				}
