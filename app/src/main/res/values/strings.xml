@@ -4,4 +4,12 @@
     <string name="drawable_image">Drawable Image</string>
     <string name="log_in">Log in</string>
     <string name="join">Join</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="password_check">Password check</string>
+    <string name="nickname">Nickname</string>
+    <string name="gender">Gender(M/W)</string>
+    <string name="area">Area</string>
+    <string name="age">Age</string>
+    <string name="sign_up">Sign up</string>
 </resources>
