@@ -1,5 +1,7 @@
 package com.kotdev99.android.blinddate
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -69,6 +71,12 @@ class MainActivity : AppCompatActivity() {
 		binding.cardStackView.apply {
 			layoutManager = manager
 			adapter = cardStackAdapter
+		}
+	}
+
+	companion object {
+		fun newIntent(context: Context): Intent {
+			return Intent(context, MainActivity::class.java)
 		}
 	}
 }

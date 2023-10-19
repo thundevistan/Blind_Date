@@ -36,6 +36,7 @@
                 android:background="@color/white">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edt_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/email" />
@@ -51,6 +52,7 @@
                 app:counterMaxLength="10">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edt_pwd"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/password" />
@@ -66,6 +68,7 @@
                 app:counterMaxLength="10">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edt_pwd_check"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/password_check" />
@@ -79,6 +82,7 @@
                 android:background="@color/white">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edt_nickname"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/nickname" />
@@ -92,6 +96,7 @@
                 android:background="@color/white">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edt_gender"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/gender" />
@@ -105,6 +110,7 @@
                 android:background="@color/white">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edt_area"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/area" />
@@ -118,6 +124,7 @@
                 android:background="@color/white">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edt_age"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/age" />
@@ -125,6 +132,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <Button
+                android:id="@+id/btn_sign_up"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"

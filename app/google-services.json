@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "113880512779",
+    "project_id": "blind-date-60de9",
+    "storage_bucket": "blind-date-60de9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:113880512779:android:67bccdb27d79a61e9b0a0e",
+        "android_client_info": {
+          "package_name": "com.kotdev99.android.blinddate"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCdXzTbM_89zhHOSRs5yP2ey5eRkdUmtF4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
