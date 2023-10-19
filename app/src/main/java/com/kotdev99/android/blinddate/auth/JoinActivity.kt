@@ -38,11 +38,11 @@ class JoinActivity : AppCompatActivity() {
 
 	private fun initView() = with(binding) {
 		btnSignUp.setOnClickListener {
-			logIn()
+			signUp()
 		}
 	}
 
-	private fun logIn() {
+	private fun signUp() {
 		val email = binding.edtEmail.text.toString()
 		val password = binding.edtPwd.text.toString()
 

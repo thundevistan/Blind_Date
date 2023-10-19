@@ -22,6 +22,11 @@ class IntroActivity : AppCompatActivity() {
 			val intent = JoinActivity.newIntent(this@IntroActivity)
 			startActivity(intent)
 		}
+
+		btnLogIn.setOnClickListener {
+			val intent = LogInActivity.newIntent(this@IntroActivity)
+			startActivity(intent)
+		}
 	}
 
 	companion object {
