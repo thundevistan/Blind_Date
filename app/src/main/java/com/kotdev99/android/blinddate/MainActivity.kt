@@ -5,6 +5,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
+import com.kotdev99.android.blinddate.auth.IntroActivity
 import com.kotdev99.android.blinddate.databinding.ActivityMainBinding
 import com.kotdev99.android.blinddate.slider.CardStackAdapter
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager
@@ -28,7 +31,13 @@ class MainActivity : AppCompatActivity() {
 	}
 
 	private fun initView() = with(binding) {
+		ivProfile.setOnClickListener {
+			val auth = Firebase.auth
+			auth.signOut()
 
+			val intent = IntroActivity.newIntent(this@MainActivity)
+			startActivity(intent)
+		}
 	}
 
 	private fun initCardStackView() {
