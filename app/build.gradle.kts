@@ -1,6 +1,7 @@
 plugins {
 	id("com.android.application")
 	id("org.jetbrains.kotlin.android")
+	id("com.google.gms.google-services")
 }
 
 android {
@@ -50,4 +51,8 @@ dependencies {
 
 	// CardStackView Library
 	implementation("com.github.yuyakaido:cardstackview:2.3.4")
+
+	// Firebase
+	implementation("com.google.firebase:firebase-auth:22.2.0")
+	implementation(platform("com.google.firebase:firebase-bom:32.3.1"))
 }
