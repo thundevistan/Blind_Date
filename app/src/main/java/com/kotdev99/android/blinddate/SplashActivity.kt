@@ -5,14 +5,13 @@ import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import com.google.firebase.auth.FirebaseAuth
 import com.kotdev99.android.blinddate.auth.IntroActivity
+import com.kotdev99.android.blinddate.utils.FirebaseAuthUtils
 
 @SuppressLint("CustomSplashScreen")
 class SplashActivity : AppCompatActivity() {
 
 	private lateinit var handler: Handler
-	private val auth by lazy { FirebaseAuth.getInstance() }
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -25,8 +24,8 @@ class SplashActivity : AppCompatActivity() {
 
 		handler = Handler(mainLooper)
 
-		val uid = auth.currentUser?.uid
-		if (uid != null) {
+		val uid = FirebaseAuthUtils.getUid()
+		if (uid != "null") {
 			handler.postDelayed({
 				val intent = MainActivity.newIntent(this)
 				startActivity(intent)
