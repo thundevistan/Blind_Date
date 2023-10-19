@@ -7,8 +7,9 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import com.kotdev99.android.blinddate.MainActivity
 import com.kotdev99.android.blinddate.databinding.ActivityJoinBinding
+import com.kotdev99.android.blinddate.utils.FirebaseRef
+import com.kotdev99.android.blinddate.utils.showToast
 
 class JoinActivity : AppCompatActivity() {
 
@@ -36,6 +37,11 @@ class JoinActivity : AppCompatActivity() {
 
 	private fun initView() = with(binding) {
 		btnSignUp.setOnClickListener {
+			nickname = edtNickname.text.toString()
+			gender = edtGender.text.toString()
+			area = edtArea.text.toString()
+			age = edtAge.text.toString()
+
 			signUp()
 		}
 	}
@@ -50,14 +56,16 @@ class JoinActivity : AppCompatActivity() {
 					// Sign in success, update UI with the signed-in user's information
 
 					val user = auth.currentUser
-//					updateUI(user)
+					uid = user?.uid.toString()
 
-					val intent = MainActivity.newIntent(this)
-					startActivity(intent)
+					// Write a message to the database
+					FirebaseRef.userInfoRef.child(uid!!).setValue("Hello, World!")
+
+//					val intent = MainActivity.newIntent(this)
+//					startActivity(intent)
 				} else {
 					// If sign in fails, display a message to the user.
-
-//					updateUI(null)
+					showToast("다시 시도해 주세요")
 				}
 			}
 	}
