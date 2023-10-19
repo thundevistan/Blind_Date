@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.kotdev99.android.blinddate.data.UserInfoModel
 import com.kotdev99.android.blinddate.databinding.ActivityJoinBinding
 import com.kotdev99.android.blinddate.utils.FirebaseRef
 import com.kotdev99.android.blinddate.utils.showToast
@@ -37,16 +38,16 @@ class JoinActivity : AppCompatActivity() {
 
 	private fun initView() = with(binding) {
 		btnSignUp.setOnClickListener {
-			nickname = edtNickname.text.toString()
-			gender = edtGender.text.toString()
-			area = edtArea.text.toString()
-			age = edtAge.text.toString()
+			val nickname = edtNickname.text.toString()
+			val gender = edtGender.text.toString()
+			val area = edtArea.text.toString()
+			val age = edtAge.text.toString()
 
-			signUp()
+			signUp(nickname, gender, area, age)
 		}
 	}
 
-	private fun signUp() {
+	private fun signUp(nickname: String, gender: String, area: String, age: String) {
 		val email = binding.edtEmail.text.toString()
 		val password = binding.edtPwd.text.toString()
 
@@ -56,10 +57,18 @@ class JoinActivity : AppCompatActivity() {
 					// Sign in success, update UI with the signed-in user's information
 
 					val user = auth.currentUser
-					uid = user?.uid.toString()
+					val uid = user?.uid.toString()
+
+					val userInfoModel = UserInfoModel(
+						uid = uid,
+						nickname = nickname,
+						gender = gender,
+						area = area,
+						age = age
+					)
 
 					// Write a message to the database
-					FirebaseRef.userInfoRef.child(uid!!).setValue("Hello, World!")
+					FirebaseRef.userInfoRef.child(uid).setValue(userInfoModel)
 
 //					val intent = MainActivity.newIntent(this)
 //					startActivity(intent)
