@@ -4,12 +4,24 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.kotdev99.android.blinddate.R
+import com.kotdev99.android.blinddate.databinding.ActivityIntroBinding
 
 class IntroActivity : AppCompatActivity() {
+
+	private val binding by lazy { ActivityIntroBinding.inflate(layoutInflater) }
+
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
-		setContentView(R.layout.activity_intro)
+		setContentView(binding.root)
+
+		initView()
+	}
+
+	private fun initView() = with(binding) {
+		btnJoin.setOnClickListener {
+			val intent = JoinActivity.newIntent(this@IntroActivity)
+			startActivity(intent)
+		}
 	}
 
 	companion object {
