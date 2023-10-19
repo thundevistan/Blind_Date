@@ -25,6 +25,6 @@ class SplashActivity : AppCompatActivity() {
 			val intent = IntroActivity.newIntent(this)
 			startActivity(intent)
 			finish()
-		}, 3000)
+		}, 2000)
 	}
 }
