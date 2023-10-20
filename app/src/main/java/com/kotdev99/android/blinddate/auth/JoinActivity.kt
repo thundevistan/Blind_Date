@@ -2,6 +2,8 @@ package com.kotdev99.android.blinddate.auth
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.contract.ActivityResultContracts
@@ -9,10 +11,12 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.kotdev99.android.blinddate.MainActivity
 import com.kotdev99.android.blinddate.data.UserInfoModel
 import com.kotdev99.android.blinddate.databinding.ActivityJoinBinding
 import com.kotdev99.android.blinddate.utils.FirebaseRef
 import com.kotdev99.android.blinddate.utils.showToast
+import java.io.ByteArrayOutputStream
 
 class JoinActivity : AppCompatActivity() {
 
@@ -86,15 +90,37 @@ class JoinActivity : AppCompatActivity() {
 					// Write a message to the database
 					FirebaseRef.userInfoRef.child(uid).setValue(userInfoModel)
 
-//					val intent = MainActivity.newIntent(this)
-//					startActivity(intent)
+					uploadImage(uid)
+
+					showToast("회원 가입 성공")
+
+					val intent = MainActivity.newIntent(this)
+					startActivity(intent)
 				} else {
 					// If sign in fails, display a message to the user.
-					showToast("다시 시도해 주세요")
+					showToast("회원 가입 실패")
 				}
 			}
 	}
 
+	private fun uploadImage(uid: String) = with(binding) {
+
+		// Get the data from an ImageView as bytes
+		ivProfile.isDrawingCacheEnabled = true
+		ivProfile.buildDrawingCache()
+		val bitmap = (ivProfile.drawable as BitmapDrawable).bitmap
+		val baos = ByteArrayOutputStream()
+		bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+		val data = baos.toByteArray()
+
+		var uploadTask = FirebaseRef.storageRef(uid).putBytes(data)
+		uploadTask.addOnFailureListener {
+			// Handle unsuccessful uploads
+		}.addOnSuccessListener { taskSnapshot ->
+			// taskSnapshot.metadata contains file metadata such as size, content-type, etc.
+			// ...
+		}
+	}
 
 	companion object {
 		fun newIntent(context: Context): Intent {

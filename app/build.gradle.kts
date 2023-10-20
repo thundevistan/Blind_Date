@@ -68,4 +68,5 @@ dependencies {
 	implementation("com.google.firebase:firebase-auth:22.2.0")
 	implementation(platform("com.google.firebase:firebase-bom:32.3.1"))
 	implementation("com.google.firebase:firebase-database-ktx")
+	implementation("com.google.firebase:firebase-storage-ktx")
 }
