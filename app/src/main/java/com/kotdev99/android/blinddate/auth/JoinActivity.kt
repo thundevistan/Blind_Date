@@ -3,6 +3,8 @@ package com.kotdev99.android.blinddate.auth
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.result.ActivityResultCallback
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -16,6 +18,14 @@ class JoinActivity : AppCompatActivity() {
 
 	private val binding by lazy { ActivityJoinBinding.inflate(layoutInflater) }
 	private lateinit var auth: FirebaseAuth
+
+	// 이미지 Uri 획득
+	private val getImage = registerForActivityResult(   // onCreate or onStart 에서 초기화 되지 않으면 에러 발생
+		ActivityResultContracts.GetContent(),           // 때문에 전역 변수로 선언 해주자
+		ActivityResultCallback { uri ->
+			binding.ivProfile.setImageURI(uri)
+		}
+	)
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -44,6 +54,12 @@ class JoinActivity : AppCompatActivity() {
 			val age = edtAge.text.toString()
 
 			signUp(nickname, gender, area, age)
+		}
+
+		ivProfile.setOnClickListener {
+
+			// Profile 에 이미지 삽입
+			getImage.launch("image/*")
 		}
 	}
 
@@ -78,6 +94,7 @@ class JoinActivity : AppCompatActivity() {
 				}
 			}
 	}
+
 
 	companion object {
 		fun newIntent(context: Context): Intent {
