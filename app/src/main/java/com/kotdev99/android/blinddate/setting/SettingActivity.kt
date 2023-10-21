@@ -4,6 +4,9 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
+import com.kotdev99.android.blinddate.auth.IntroActivity
 import com.kotdev99.android.blinddate.databinding.ActivitySettingBinding
 
 class SettingActivity : AppCompatActivity() {
@@ -18,8 +21,16 @@ class SettingActivity : AppCompatActivity() {
 	}
 
 	private fun initView() = with(binding) {
-		myPageBtn.setOnClickListener {
+		btnMyPage.setOnClickListener {
 			val intent = MyPageActivity.newIntent(this@SettingActivity)
+			startActivity(intent)
+		}
+
+		btnLogOut.setOnClickListener {
+			val auth = Firebase.auth
+			auth.signOut()
+
+			val intent = IntroActivity.newIntent(this@SettingActivity)
 			startActivity(intent)
 		}
 	}

@@ -8,7 +8,7 @@
     tools:context=".setting.MyPageActivity">
 
     <ImageView
-        android:id="@+id/myImage"
+        android:id="@+id/iv_profile"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_gravity="center"
@@ -16,7 +16,7 @@
         android:contentDescription="@string/drawable_image" />
 
     <TextView
-        android:id="@+id/myUid"
+        android:id="@+id/tv_uid"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="18dp"
@@ -26,7 +26,7 @@
         tools:text="myUid" />
 
     <TextView
-        android:id="@+id/nickname"
+        android:id="@+id/tv_nickname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="18dp"
@@ -36,7 +36,7 @@
         tools:text="@string/nickname" />
 
     <TextView
-        android:id="@+id/age"
+        android:id="@+id/tv_age"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="18dp"
@@ -46,7 +46,7 @@
         tools:text="@string/age" />
 
     <TextView
-        android:id="@+id/area"
+        android:id="@+id/tv_area"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="18dp"
@@ -56,7 +56,7 @@
         tools:text="@string/area" />
 
     <TextView
-        android:id="@+id/gender"
+        android:id="@+id/tv_gender"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="18dp"

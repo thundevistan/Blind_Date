@@ -113,10 +113,10 @@ class JoinActivity : AppCompatActivity() {
 		bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
 		val data = baos.toByteArray()
 
-		var uploadTask = FirebaseRef.storageRef(uid).putBytes(data)
+		val uploadTask = FirebaseRef.storageRef(uid).putBytes(data)
 		uploadTask.addOnFailureListener {
 			// Handle unsuccessful uploads
-		}.addOnSuccessListener { taskSnapshot ->
+		}.addOnSuccessListener {
 			// taskSnapshot.metadata contains file metadata such as size, content-type, etc.
 			// ...
 		}
