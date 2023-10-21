@@ -67,6 +67,9 @@ dependencies {
 	// Glide
 	implementation("com.github.bumptech.glide:glide:4.16.0")
 
+	// TedPermission
+	implementation ("io.github.ParkSangGwon:tedpermission-normal:3.3.0")
+
 	// Firebase
 	implementation("com.google.firebase:firebase-auth:22.2.0")
 	implementation(platform("com.google.firebase:firebase-bom:32.3.1"))
