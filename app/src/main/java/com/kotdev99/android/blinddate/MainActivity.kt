@@ -13,6 +13,7 @@ import com.kotdev99.android.blinddate.databinding.ActivityMainBinding
 import com.kotdev99.android.blinddate.setting.SettingActivity
 import com.kotdev99.android.blinddate.slider.CardStackAdapter
 import com.kotdev99.android.blinddate.utils.FirebaseRef
+import com.kotdev99.android.blinddate.utils.showToast
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager
 import com.yuyakaido.android.cardstackview.CardStackListener
 import com.yuyakaido.android.cardstackview.Direction
@@ -23,6 +24,7 @@ class MainActivity : AppCompatActivity() {
 
 	private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
 	private val userInfoList = mutableListOf<UserInfoModel>()
+	private var userCount = 0
 
 	// CardStackView 변수
 	private lateinit var cardStackAdapter: CardStackAdapter
@@ -52,7 +54,14 @@ class MainActivity : AppCompatActivity() {
 			}
 
 			override fun onCardSwiped(direction: Direction?) {
+				if (direction == Direction.Right) showToast("Right")
+				if (direction == Direction.Left) showToast("Left")
 
+				userCount += 1
+				if (userCount == userInfoList.count()) {
+					getUserInfo()
+					showToast("새로운 유저 등장!!")
+				}
 			}
 
 			override fun onCardRewound() {
