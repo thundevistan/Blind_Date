@@ -12,6 +12,7 @@ import com.kotdev99.android.blinddate.data.UserInfoModel
 import com.kotdev99.android.blinddate.databinding.ActivityMainBinding
 import com.kotdev99.android.blinddate.setting.SettingActivity
 import com.kotdev99.android.blinddate.slider.CardStackAdapter
+import com.kotdev99.android.blinddate.utils.FirebaseAuthUtils
 import com.kotdev99.android.blinddate.utils.FirebaseRef
 import com.kotdev99.android.blinddate.utils.showToast
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager
@@ -25,6 +26,7 @@ class MainActivity : AppCompatActivity() {
 	private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
 	private val userInfoList = mutableListOf<UserInfoModel>()
 	private var userCount = 0
+	private lateinit var currentUserGender: String
 
 	// CardStackView 변수
 	private lateinit var cardStackAdapter: CardStackAdapter
@@ -47,6 +49,7 @@ class MainActivity : AppCompatActivity() {
 	}
 
 	private fun initCardStackView() {
+		getMyUserInfo()
 
 		manager = CardStackLayoutManager(this, object : CardStackListener {
 			override fun onCardDragging(direction: Direction?, ratio: Float) {
@@ -59,7 +62,7 @@ class MainActivity : AppCompatActivity() {
 
 				userCount += 1
 				if (userCount == userInfoList.count()) {
-					getUserInfo()
+					getUserInfo(currentUserGender)
 					showToast("새로운 유저 등장!!")
 				}
 			}
@@ -86,28 +89,47 @@ class MainActivity : AppCompatActivity() {
 			layoutManager = manager
 			adapter = cardStackAdapter
 		}
+	}
 
-		getUserInfo()
+	private fun getMyUserInfo() {
+		val uid = FirebaseAuthUtils.getUid()
+
+		FirebaseRef.userInfoRef.child(uid).addValueEventListener(object : ValueEventListener {
+			override fun onDataChange(snapshot: DataSnapshot) {
+
+				val userInfo = snapshot.getValue(UserInfoModel::class.java)
+				currentUserGender = userInfo?.gender ?: "error"
+
+				getUserInfo(currentUserGender)
+			}
+
+			override fun onCancelled(error: DatabaseError) {
+				showToast(error.message)
+			}
+		})
 	}
 
 	// Firebase Database 에서 값 읽기
-	private fun getUserInfo() {
+	private fun getUserInfo(currentUserGender: String) {
 
 		// 값 변경 시마다 onDataChange 콜백 자동 호출
 		FirebaseRef.userInfoRef.addValueEventListener(object : ValueEventListener {
 			override fun onDataChange(snapshot: DataSnapshot) {
-				// Get Post object and use the values to update the UI
 
 				for (item in snapshot.children) {
 					val userInfo = item.getValue(UserInfoModel::class.java)
-					userInfo?.let { userInfoList.add(it) }
+
+					if (userInfo?.gender.equals(currentUserGender)) {
+
+					} else {
+						userInfo?.let { userInfoList.add(it) }
+					}
 				}
 				cardStackAdapter.notifyDataSetChanged()
 			}
 
 			override fun onCancelled(databaseError: DatabaseError) {
 				// Getting Post failed, log a message
-
 			}
 		})
 	}
