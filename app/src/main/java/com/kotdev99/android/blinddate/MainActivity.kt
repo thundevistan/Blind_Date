@@ -5,18 +5,24 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
-import com.kotdev99.android.blinddate.auth.IntroActivity
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
+import com.kotdev99.android.blinddate.data.UserInfoModel
 import com.kotdev99.android.blinddate.databinding.ActivityMainBinding
+import com.kotdev99.android.blinddate.setting.SettingActivity
 import com.kotdev99.android.blinddate.slider.CardStackAdapter
+import com.kotdev99.android.blinddate.utils.FirebaseRef
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager
 import com.yuyakaido.android.cardstackview.CardStackListener
 import com.yuyakaido.android.cardstackview.Direction
 
+const val TAG = "Main"
+
 class MainActivity : AppCompatActivity() {
 
 	private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
+	private val userInfoList = mutableListOf<UserInfoModel>()
 
 	// CardStackView 변수
 	private lateinit var cardStackAdapter: CardStackAdapter
@@ -31,11 +37,9 @@ class MainActivity : AppCompatActivity() {
 	}
 
 	private fun initView() = with(binding) {
-		ivProfile.setOnClickListener {
-			val auth = Firebase.auth
-			auth.signOut()
 
-			val intent = IntroActivity.newIntent(this@MainActivity)
+		ivProfile.setOnClickListener {
+			val intent = SettingActivity.newIntent(this@MainActivity)
 			startActivity(intent)
 		}
 	}
@@ -68,19 +72,35 @@ class MainActivity : AppCompatActivity() {
 			}
 		})
 
-		// 더미 데이터
-		val testList = mutableListOf<String>()
-		testList.apply {
-			add("a")
-			add("b")
-			add("c")
-		}
-
-		cardStackAdapter = CardStackAdapter(this, testList)
+		cardStackAdapter = CardStackAdapter(this, userInfoList)
 		binding.cardStackView.apply {
 			layoutManager = manager
 			adapter = cardStackAdapter
 		}
+
+		getUserInfo()
+	}
+
+	// Firebase Database 에서 값 읽기
+	private fun getUserInfo() {
+
+		// 값 변경 시마다 onDataChange 콜백 자동 호출
+		FirebaseRef.userInfoRef.addValueEventListener(object : ValueEventListener {
+			override fun onDataChange(snapshot: DataSnapshot) {
+				// Get Post object and use the values to update the UI
+
+				for (item in snapshot.children) {
+					val userInfo = item.getValue(UserInfoModel::class.java)
+					userInfo?.let { userInfoList.add(it) }
+				}
+				cardStackAdapter.notifyDataSetChanged()
+			}
+
+			override fun onCancelled(databaseError: DatabaseError) {
+				// Getting Post failed, log a message
+
+			}
+		})
 	}
 
 	companion object {
