@@ -10,9 +10,9 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
-import com.kotdev99.android.blinddate.auth.IntroActivity
 import com.kotdev99.android.blinddate.data.UserInfoModel
 import com.kotdev99.android.blinddate.databinding.ActivityMainBinding
+import com.kotdev99.android.blinddate.setting.SettingActivity
 import com.kotdev99.android.blinddate.slider.CardStackAdapter
 import com.kotdev99.android.blinddate.utils.FirebaseRef
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager
@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
 			val auth = Firebase.auth
 			auth.signOut()
 
-			val intent = IntroActivity.newIntent(this@MainActivity)
+			val intent = SettingActivity.newIntent(this@MainActivity)
 			startActivity(intent)
 		}
 	}
