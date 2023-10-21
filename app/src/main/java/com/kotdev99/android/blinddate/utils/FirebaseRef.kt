@@ -8,9 +8,11 @@ import com.kotdev99.android.blinddate.BuildConfig
 class FirebaseRef {
 
 	companion object {
-		private val database = Firebase.database(BuildConfig.FIREBASE_DATABASE_URL)
+		private val database = Firebase.database(BuildConfig.FIREBASE_DATABASE_URL)     // RTDB Url
 		val userInfoRef = database.getReference("userInfo")
+		val userLikeRef = database.getReference("userLike")
 
+		// 이미지 저장 storage
 		private val storage = Firebase.storage
 		val storageRef = { uid: String -> storage.reference.child("$uid.png") }
 	}

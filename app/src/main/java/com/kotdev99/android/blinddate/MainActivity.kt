@@ -3,6 +3,7 @@ package com.kotdev99.android.blinddate
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.database.DataSnapshot
@@ -25,8 +26,9 @@ class MainActivity : AppCompatActivity() {
 
 	private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
 	private val userInfoList = mutableListOf<UserInfoModel>()
-	private var userCount = 0
 	private lateinit var currentUserGender: String
+	private val uid by lazy { FirebaseAuthUtils.getUid() }
+	private var userCount = 0
 
 	// CardStackView 변수
 	private lateinit var cardStackAdapter: CardStackAdapter
@@ -57,8 +59,16 @@ class MainActivity : AppCompatActivity() {
 			}
 
 			override fun onCardSwiped(direction: Direction?) {
-				if (direction == Direction.Right) showToast("Right")
-				if (direction == Direction.Left) showToast("Left")
+
+				if (direction == Direction.Right) {
+					showToast("Right")
+					Log.d(TAG, userInfoList[userCount].uid.toString())
+
+					userInfoList[userCount].uid?.let { userLikeOtherUser(uid, it) }
+				}
+				if (direction == Direction.Left) {
+					showToast("Left")
+				}
 
 				userCount += 1
 				if (userCount == userInfoList.count()) {
@@ -92,7 +102,6 @@ class MainActivity : AppCompatActivity() {
 	}
 
 	private fun getMyUserInfo() {
-		val uid = FirebaseAuthUtils.getUid()
 
 		FirebaseRef.userInfoRef.child(uid).addValueEventListener(object : ValueEventListener {
 			override fun onDataChange(snapshot: DataSnapshot) {
@@ -132,6 +141,11 @@ class MainActivity : AppCompatActivity() {
 				// Getting Post failed, log a message
 			}
 		})
+	}
+
+	// 좋아요 누른 유저의 UID 를 저장
+	private fun userLikeOtherUser(myUid: String, otherUid: String) {
+		FirebaseRef.userLikeRef.child(myUid).child(otherUid).setValue("true")
 	}
 
 	companion object {
