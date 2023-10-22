@@ -8,6 +8,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.kotdev99.android.blinddate.auth.IntroActivity
 import com.kotdev99.android.blinddate.databinding.ActivitySettingBinding
+import com.kotdev99.android.blinddate.message.MyLikeListActivity
 
 class SettingActivity : AppCompatActivity() {
 
@@ -31,6 +32,11 @@ class SettingActivity : AppCompatActivity() {
 			auth.signOut()
 
 			val intent = IntroActivity.newIntent(this@SettingActivity)
+			startActivity(intent)
+		}
+
+		btnLikeList.setOnClickListener {
+			val intent = MyLikeListActivity.newIntent(this@SettingActivity)
 			startActivity(intent)
 		}
 	}
