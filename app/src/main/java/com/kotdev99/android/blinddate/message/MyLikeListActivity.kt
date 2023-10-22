@@ -16,9 +16,12 @@ import com.kotdev99.android.blinddate.utils.showToast
 class MyLikeListActivity : AppCompatActivity() {
 
 	private val binding by lazy { ActivityMyLikeListBinding.inflate(layoutInflater) }
-	private var likeUserList = mutableListOf<UserInfoModel>()
+
 	private var likeUserListUid = mutableListOf<String>()
+	private var likeUserList = mutableListOf<UserInfoModel>()
 	private val uid = FirebaseAuthUtils.getUid()
+
+	private val adapter by lazy { LikeListAdapter() }
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -29,8 +32,8 @@ class MyLikeListActivity : AppCompatActivity() {
 		getMyLikedUserInfo()
 	}
 
-	private fun initView() {
-
+	private fun initView() = with(binding) {
+		rvLikeContainer.adapter = adapter
 	}
 
 	private fun getMyLikeList() {
@@ -61,12 +64,16 @@ class MyLikeListActivity : AppCompatActivity() {
 						userInfo?.let { likeUserList.add(it) }
 					}
 				}
+
+				adapter.submitList(likeUserList)
 			}
 
 			override fun onCancelled(error: DatabaseError) {
 				showToast(error.message)
 			}
 		})
+
+
 	}
 
 	companion object {
