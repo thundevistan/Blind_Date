@@ -3,7 +3,10 @@ package com.kotdev99.android.blinddate.message
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.DividerItemDecoration
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
@@ -21,7 +24,45 @@ class MyLikeListActivity : AppCompatActivity() {
 	private var likeUserList = mutableListOf<UserInfoModel>()
 	private val uid = FirebaseAuthUtils.getUid()
 
-	private val adapter by lazy { LikeListAdapter() }
+	private val listAdapter by lazy {
+		LikeListAdapter(onItemClick = { position, item ->
+			onItemClicked(position, item)
+		})
+	}
+
+	// item 클릭 시 매칭 상태인지 판별
+	private fun onItemClicked(position: Int, item: UserInfoModel) {
+		val keyList = mutableListOf<String>()
+
+		FirebaseRef.userLikeRef.child(likeUserList[position].uid.toString())
+			.addValueEventListener(object : ValueEventListener {
+				override fun onDataChange(snapshot: DataSnapshot) {
+
+					if (!snapshot.hasChildren()) {
+						showToast("매칭 상태가 아닙니다")
+					} else {
+						for (likeUserUid in snapshot.children) {
+
+							keyList.add(likeUserUid.key.toString())
+						}
+
+						if (keyList.contains(uid)) {
+							showToast("매칭이 되었습니다!")
+						} else {
+							showToast("매칭 상태가 아닙니다")
+						}
+					}
+				}
+
+				override fun onCancelled(error: DatabaseError) {
+					showToast(error.message)
+				}
+
+			})
+
+
+		Log.d(TAG, likeUserList[position].uid.toString())
+	}
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -33,7 +74,10 @@ class MyLikeListActivity : AppCompatActivity() {
 	}
 
 	private fun initView() = with(binding) {
-		rvLikeContainer.adapter = adapter
+		rvLikeContainer.apply {
+			this.adapter = listAdapter
+			addItemDecoration(DividerItemDecoration(this@MyLikeListActivity, LinearLayout.VERTICAL))
+		}
 	}
 
 	private fun getMyLikeList() {
@@ -65,15 +109,13 @@ class MyLikeListActivity : AppCompatActivity() {
 					}
 				}
 
-				adapter.submitList(likeUserList)
+				listAdapter.submitList(likeUserList)
 			}
 
 			override fun onCancelled(error: DatabaseError) {
 				showToast(error.message)
 			}
 		})
-
-
 	}
 
 	companion object {
